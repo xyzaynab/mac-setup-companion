@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ImportRouteImport } from './routes/import'
 import { Route as GuideDocIdRouteImport } from './routes/guide.$docId'
+import { Route as LearnUnitIdRouteImport } from './routes/learn.$unitId'
 import { Route as ReadDocIdRouteImport } from './routes/read.$docId'
+import { Route as ReferenceIndexRouteImport } from './routes/reference.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +31,19 @@ const GuideDocIdRoute = GuideDocIdRouteImport.update({
   path: '/guide/$docId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnUnitIdRoute = LearnUnitIdRouteImport.update({
+  id: '/learn/$unitId',
+  path: '/learn/$unitId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReadDocIdRoute = ReadDocIdRouteImport.update({
   id: '/read/$docId',
   path: '/read/$docId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferenceIndexRoute = ReferenceIndexRouteImport.update({
+  id: '/reference/',
+  path: '/reference/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +51,61 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/import': typeof ImportRoute
   '/guide/$docId': typeof GuideDocIdRoute
+  '/learn/$unitId': typeof LearnUnitIdRoute
   '/read/$docId': typeof ReadDocIdRoute
+  '/reference/': typeof ReferenceIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/import': typeof ImportRoute
   '/guide/$docId': typeof GuideDocIdRoute
+  '/learn/$unitId': typeof LearnUnitIdRoute
   '/read/$docId': typeof ReadDocIdRoute
+  '/reference': typeof ReferenceIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/import': typeof ImportRoute
   '/guide/$docId': typeof GuideDocIdRoute
+  '/learn/$unitId': typeof LearnUnitIdRoute
   '/read/$docId': typeof ReadDocIdRoute
+  '/reference/': typeof ReferenceIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/import' | '/guide/$docId' | '/read/$docId'
+  fullPaths:
+    | '/'
+    | '/import'
+    | '/guide/$docId'
+    | '/learn/$unitId'
+    | '/read/$docId'
+    | '/reference/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/import' | '/guide/$docId' | '/read/$docId'
-  id: '__root__' | '/' | '/import' | '/guide/$docId' | '/read/$docId'
+  to:
+    | '/'
+    | '/import'
+    | '/guide/$docId'
+    | '/learn/$unitId'
+    | '/read/$docId'
+    | '/reference'
+  id:
+    | '__root__'
+    | '/'
+    | '/import'
+    | '/guide/$docId'
+    | '/learn/$unitId'
+    | '/read/$docId'
+    | '/reference/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ImportRoute: typeof ImportRoute
   GuideDocIdRoute: typeof GuideDocIdRoute
+  LearnUnitIdRoute: typeof LearnUnitIdRoute
   ReadDocIdRoute: typeof ReadDocIdRoute
+  ReferenceIndexRoute: typeof ReferenceIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +131,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuideDocIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/$unitId': {
+      id: '/learn/$unitId'
+      path: '/learn/$unitId'
+      fullPath: '/learn/$unitId'
+      preLoaderRoute: typeof LearnUnitIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/read/$docId': {
       id: '/read/$docId'
       path: '/read/$docId'
       fullPath: '/read/$docId'
       preLoaderRoute: typeof ReadDocIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reference/': {
+      id: '/reference/'
+      path: '/reference'
+      fullPath: '/reference/'
+      preLoaderRoute: typeof ReferenceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,7 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ImportRoute: ImportRoute,
   GuideDocIdRoute: GuideDocIdRoute,
+  LearnUnitIdRoute: LearnUnitIdRoute,
   ReadDocIdRoute: ReadDocIdRoute,
+  ReferenceIndexRoute: ReferenceIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

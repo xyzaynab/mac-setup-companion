@@ -1,137 +1,131 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell, ProgressBar } from "@/components/workbench/Shell";
-import { actions, completionOf, getProgress, useWorkbench } from "@/lib/workbench/store";
-import { CATEGORIES } from "@/lib/workbench/types";
+import { ProgressBar, Shell, SourceBadge } from "@/components/workbench/Shell";
+import { CORE, COMPANIONS, corePhases, getUnit, populatedUnits, unitLabel } from "@/lib/workbench/library";
+import { START_HERE } from "@/content/companions";
+import { nextStepIndex, unitStats, useProgress } from "@/lib/workbench/progress";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mac Setup Workbench — guided macOS setup, step by step" },
+      { title: "Mac Setup Companion — work the macOS manual, step by step" },
       {
         name: "description",
         content:
-          "Turn your local HTML macOS manuals into a guided workflow: one step at a time, with notes, progress and resume — all stored in your browser.",
+          "An execution layer over A Connected macOS Working Manual: one actionable step at a time, with notes and progress kept locally in your browser.",
       },
-      { property: "og:title", content: "Mac Setup Workbench — guided macOS setup, step by step" },
+      { property: "og:title", content: "Mac Setup Companion — work the macOS manual, step by step" },
       {
         property: "og:description",
-        content: "A calm, local-first workbench that walks you through your own macOS setup guides.",
+        content: "Continue setup where you left off: core manual chapters 00–40 plus focused companions.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Dashboard,
+  component: Home,
 });
 
-function Dashboard() {
-  const { docs, progress, ready } = useWorkbench();
+function Home() {
+  const p = useProgress();
+  const resumeUnit = (p.last && getUnit(p.last.unitId)) || START_HERE;
+  const resumeStep = p.last?.unitId === resumeUnit.id ? p.last.step : nextStepIndex(resumeUnit, p);
+  const current = resumeUnit.steps[Math.min(resumeStep, Math.max(resumeUnit.steps.length - 1, 0))];
 
-  const allSteps = docs.reduce((n, d) => n + d.steps.length, 0);
-  const allDone = docs.reduce((n, d) => n + completionOf(d, progress).done, 0);
-  const overall = allSteps ? Math.round((allDone / allSteps) * 100) : 0;
-
-  if (ready && docs.length === 0) return <EmptyState />;
+  const loaded = populatedUnits();
+  const totalSteps = loaded.reduce((n, u) => n + u.steps.length, 0);
+  const doneSteps = loaded.reduce((n, u) => n + unitStats(u, p).done, 0);
+  const overall = totalSteps ? Math.round((doneSteps / totalSteps) * 100) : 0;
 
   return (
     <Shell>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Your setup workbench</h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            {docs.length} guide{docs.length === 1 ? "" : "s"} · {allDone} of {allSteps} steps done
+      <section className="max-w-[70ch]">
+        <h1 className="text-[19px] font-semibold tracking-tight">Continue setup</h1>
+        <div className="mt-3 border border-border bg-surface px-5 py-4">
+          <SourceBadge source={resumeUnit.source} />
+          <p className="mt-2.5 text-[13px] text-muted-foreground">{unitLabel(resumeUnit)}</p>
+          <p className="mt-1 text-base font-medium leading-snug">
+            {current ? current.title : "Source content to be loaded"}
+          </p>
+          {current?.lead && <p className="mt-1 text-[13px] text-muted-foreground">{current.lead}</p>}
+          <div className="mt-4 flex items-center gap-3">
+            <Link
+              to="/learn/$unitId"
+              params={{ unitId: resumeUnit.id }}
+              search={{ step: resumeStep }}
+              className="bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              {p.last ? "Continue" : "Begin"}
+            </Link>
+            <Link to="/reference" className="text-[13px] text-muted-foreground hover:text-foreground">
+              Reference mode
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <ProgressBar pct={overall} />
+          <p className="mt-1.5 text-[12px] text-muted-foreground">
+            {doneSteps} of {totalSteps} loaded steps complete · {CORE.filter((u) => u.status === "populated").length}{" "}
+            of {CORE.length} core chapters have source text
           </p>
         </div>
-        <Link
-          to="/import"
-          className="rounded-md border border-border bg-surface px-3.5 py-2 text-sm transition-colors hover:bg-surface-raised"
-        >
-          Import guides
-        </Link>
-      </div>
+      </section>
 
-      <div className="mt-5">
-        <ProgressBar pct={overall} />
-      </div>
+      <section className="mt-10">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          Companions
+        </h2>
+        <div className="mt-3 divide-y divide-border border-y border-border">
+          {[START_HERE, ...COMPANIONS].map((u) => {
+            const s = unitStats(u, p);
+            return (
+              <Link
+                key={u.id}
+                to="/learn/$unitId"
+                params={{ unitId: u.id }}
+                className="flex items-baseline gap-3 px-1 py-2.5 text-[13px] hover:bg-secondary"
+              >
+                <span className="min-w-0 flex-1 truncate">{u.title}</span>
+                <span className="text-[11px] text-muted-foreground">
+                  {u.status === "pending" ? "source pending" : `${s.done}/${s.total}`}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
 
-      <div className="mt-10 space-y-10">
-        {CATEGORIES.filter((c) => docs.some((d) => d.category === c)).map((category) => (
-          <section key={category}>
-            <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              {category}
-            </h2>
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              {docs
-                .filter((d) => d.category === category)
-                .map((doc) => {
-                  const { done, total, pct } = completionOf(doc, progress);
-                  const p = getProgress(progress, doc.id);
-                  const resumeIndex = Math.min(p.lastStepIndex, Math.max(total - 1, 0));
-                  const started = done > 0 || p.lastStepIndex > 0;
-                  const sections = doc.steps.filter((s) => s.level <= 2).length;
+      <section className="mt-10">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          Core Manual 00–40
+        </h2>
+        <div className="mt-3 space-y-6">
+          {corePhases().map((g) => (
+            <div key={g.phase}>
+              <p className="text-[12px] text-muted-foreground">{g.phase}</p>
+              <div className="mt-1.5 divide-y divide-border border-y border-border">
+                {g.units.map((u) => {
+                  const s = unitStats(u, p);
                   return (
-                    <article key={doc.id} className="rounded-xl border border-border bg-card p-5">
-                      <h3 className="text-base font-medium leading-snug">{doc.title}</h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {sections} section{sections === 1 ? "" : "s"} · {total} steps · {doc.fileName}
-                      </p>
-                      <div className="mt-4">
-                        <ProgressBar pct={pct} tone={pct === 100 ? "violet" : "primary"} />
-                        <p className="mt-2 text-xs text-muted-foreground">
-                          {pct === 100 ? "Completed" : `${pct}% complete`}
-                          {started && pct < 100 && ` · next: ${doc.steps[resumeIndex]?.title ?? "step 1"}`}
-                        </p>
-                      </div>
-                      <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <Link
-                          to="/guide/$docId"
-                          params={{ docId: doc.id }}
-                          search={{ step: resumeIndex }}
-                          className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                        >
-                          {started ? "Resume" : "Start"}
-                        </Link>
-                        <Link
-                          to="/read/$docId"
-                          params={{ docId: doc.id }}
-                          className="rounded-md border border-border px-3 py-1.5 text-sm transition-colors hover:bg-secondary"
-                        >
-                          Read mode
-                        </Link>
-                        <button
-                          onClick={() => {
-                            if (confirm(`Remove "${doc.title}" and its notes?`)) actions.removeDoc(doc.id);
-                          }}
-                          className="ml-auto text-xs text-muted-foreground transition-colors hover:text-destructive"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </article>
+                    <Link
+                      key={u.id}
+                      to="/learn/$unitId"
+                      params={{ unitId: u.id }}
+                      className="flex items-baseline gap-3 px-1 py-2 text-[13px] hover:bg-secondary"
+                    >
+                      <span className="w-6 shrink-0 tabular-nums text-muted-foreground">{u.chapter}</span>
+                      <span className="min-w-0 flex-1 truncate">{u.title}</span>
+                      <span className="text-[11px] text-muted-foreground">
+                        {u.status === "pending" ? "source pending" : `${s.done}/${s.total}`}
+                      </span>
+                    </Link>
                   );
                 })}
+              </div>
             </div>
-          </section>
-        ))}
-      </div>
-    </Shell>
-  );
-}
-
-function EmptyState() {
-  return (
-    <Shell>
-      <div className="mx-auto max-w-xl py-16 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Nothing imported yet</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Bring in the macOS setup and troubleshooting guides saved on your Mac. They are parsed here in the
-          browser into a step-by-step workflow — no upload, no account, no database.
-        </p>
-        <Link
-          to="/import"
-          className="mt-7 inline-block rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-        >
-          Import your first guide
-        </Link>
-      </div>
+          ))}
+        </div>
+      </section>
     </Shell>
   );
 }
