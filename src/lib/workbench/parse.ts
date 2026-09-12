@@ -78,7 +78,7 @@ export function parseHtmlToSteps(html: string): { title: string; steps: Step[] }
       n = n.nextSibling;
     }
 
-    while (stack.length && stack[stack.length - 1].level >= level) stack.pop();
+    while (stack.length && (stack[stack.length - 1]?.level ?? 0) >= level) stack.pop();
     const path = stack.map((s) => s.title);
     stack.push({ level, title });
 

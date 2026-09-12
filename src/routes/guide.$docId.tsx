@@ -6,7 +6,7 @@ import type { Doc, Step } from "@/lib/workbench/types";
 
 export const Route = createFileRoute("/guide/$docId")({
   validateSearch: (search: Record<string, unknown>) => ({
-    step: Math.max(0, Number(search.step) || 0),
+    step: Math.max(0, Number(search["step"]) || 0),
   }),
   head: () => ({
     meta: [
