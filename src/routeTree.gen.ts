@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ImportRouteImport } from './routes/import'
+import { Route as GuideDocIdRouteImport } from './routes/guide.$docId'
+import { Route as ReadDocIdRouteImport } from './routes/read.$docId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImportRoute = ImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideDocIdRoute = GuideDocIdRouteImport.update({
+  id: '/guide/$docId',
+  path: '/guide/$docId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadDocIdRoute = ReadDocIdRouteImport.update({
+  id: '/read/$docId',
+  path: '/read/$docId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/import': typeof ImportRoute
+  '/guide/$docId': typeof GuideDocIdRoute
+  '/read/$docId': typeof ReadDocIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/import': typeof ImportRoute
+  '/guide/$docId': typeof GuideDocIdRoute
+  '/read/$docId': typeof ReadDocIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/import': typeof ImportRoute
+  '/guide/$docId': typeof GuideDocIdRoute
+  '/read/$docId': typeof ReadDocIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/import' | '/guide/$docId' | '/read/$docId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/import' | '/guide/$docId' | '/read/$docId'
+  id: '__root__' | '/' | '/import' | '/guide/$docId' | '/read/$docId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ImportRoute: typeof ImportRoute
+  GuideDocIdRoute: typeof GuideDocIdRoute
+  ReadDocIdRoute: typeof ReadDocIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/import': {
+      id: '/import'
+      path: '/import'
+      fullPath: '/import'
+      preLoaderRoute: typeof ImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide/$docId': {
+      id: '/guide/$docId'
+      path: '/guide/$docId'
+      fullPath: '/guide/$docId'
+      preLoaderRoute: typeof GuideDocIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read/$docId': {
+      id: '/read/$docId'
+      path: '/read/$docId'
+      fullPath: '/read/$docId'
+      preLoaderRoute: typeof ReadDocIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ImportRoute: ImportRoute,
+  GuideDocIdRoute: GuideDocIdRoute,
+  ReadDocIdRoute: ReadDocIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
