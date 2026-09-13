@@ -5,14 +5,19 @@ const KEY = "msc.progress.v1";
 
 export type StepState = "done" | "skipped";
 
+export type Position = { unitId: string; step: number };
+
 export type ProgressState = {
   steps: Record<string, StepState>;
   notes: Record<string, string>;
-  last: { unitId: string; step: number } | null;
+  /** Last visited unit of any kind. Kept for generic resume UI. */
+  last: Position | null;
+  /** Last visited CORE chapter step. Companions never touch this. */
+  lastCore: Position | null;
   ready: boolean;
 };
 
-const EMPTY: ProgressState = { steps: {}, notes: {}, last: null, ready: false };
+const EMPTY: ProgressState = { steps: {}, notes: {}, last: null, lastCore: null, ready: false };
 
 let state: ProgressState = EMPTY;
 const listeners = new Set<() => void>();
@@ -20,17 +25,33 @@ const emit = () => listeners.forEach((l) => l());
 
 export const stepKey = (unitId: string, stepId: string) => `${unitId}::${stepId}`;
 
+/** Core chapter unit ids are exactly `ch-NN`. */
+export function isCoreUnitId(unitId: string | undefined | null): boolean {
+  return !!unitId && /^ch-\d{2}$/.test(unitId);
+}
+
+/**
+ * Migrate a persisted payload into the current shape without losing data.
+ * If `lastCore` is absent but the legacy `last` points at a core chapter,
+ * seed `lastCore` from it; otherwise leave it null.
+ */
+export function migrateProgress(parsed: Partial<ProgressState>): ProgressState {
+  const last = parsed.last ?? null;
+  const lastCore = parsed.lastCore ?? (last && isCoreUnitId(last.unitId) ? last : null);
+  return {
+    steps: parsed.steps ?? {},
+    notes: parsed.notes ?? {},
+    last,
+    lastCore,
+    ready: true,
+  };
+}
+
 function hydrate() {
   if (state.ready || typeof window === "undefined") return;
   try {
     const raw = localStorage.getItem(KEY);
-    const parsed = raw ? (JSON.parse(raw) as Partial<ProgressState>) : {};
-    state = {
-      steps: parsed.steps ?? {},
-      notes: parsed.notes ?? {},
-      last: parsed.last ?? null,
-      ready: true,
-    };
+    state = migrateProgress(raw ? (JSON.parse(raw) as Partial<ProgressState>) : {});
   } catch {
     state = { ...EMPTY, ready: true };
   }
@@ -42,7 +63,12 @@ function set(next: Partial<ProgressState>) {
   try {
     localStorage.setItem(
       KEY,
-      JSON.stringify({ steps: state.steps, notes: state.notes, last: state.last }),
+      JSON.stringify({
+        steps: state.steps,
+        notes: state.notes,
+        last: state.last,
+        lastCore: state.lastCore,
+      }),
     );
   } catch {
     /* storage unavailable */
@@ -80,8 +106,14 @@ export const progressActions = {
     set({ notes: { ...state.notes, [stepKey(unitId, stepId)]: note } });
   },
   setLast(unitId: string, step: number) {
-    if (state.last?.unitId === unitId && state.last.step === step) return;
-    set({ last: { unitId, step } });
+    const core = isCoreUnitId(unitId);
+    const sameLast = state.last?.unitId === unitId && state.last.step === step;
+    const sameCore = !core || (state.lastCore?.unitId === unitId && state.lastCore.step === step);
+    if (sameLast && sameCore) return;
+    set({
+      last: { unitId, step },
+      lastCore: core ? { unitId, step } : state.lastCore,
+    });
   },
   resetUnit(unitId: string) {
     const steps = { ...state.steps };
