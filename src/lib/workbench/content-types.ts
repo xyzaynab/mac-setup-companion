@@ -19,15 +19,34 @@ export const SOURCE_LABEL: Record<SourceKind, string> = {
   imported: "Imported HTML",
 };
 
+/** The only visible step types. Do not add more. */
+export type StepType = "orient" | "do" | "decision" | "try" | "reference";
+
+export const STEP_TYPE_LABEL: Record<StepType, string> = {
+  orient: "Orient / Understand",
+  do: "Do this now",
+  decision: "Decision",
+  try: "Try this now",
+  reference: "Reference / Later",
+};
+
 export type Block =
   | { kind: "p"; text: string }
   | { kind: "ul"; items: string[] }
   | { kind: "ol"; items: string[] }
-  | { kind: "note"; text: string };
+  | { kind: "note"; text: string }
+  /** Source-backed "What you should see" verification callout. */
+  | { kind: "verify"; items: string[] }
+  /** Restrained caution callout. */
+  | { kind: "caution"; text?: string; items?: string[] }
+  /** Secondary, collapsible material — optional reading routes and the like. */
+  | { kind: "details"; summary: string; blocks: Block[] };
 
 export type ContentStep = {
   id: string;
   title: string;
+  /** Restrained step type shown as quiet metadata above the heading. */
+  type?: StepType;
   /** Short imperative summary shown in the outline and focus header. */
   lead?: string;
   body: Block[];
