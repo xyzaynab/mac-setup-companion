@@ -44,17 +44,14 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
         open ? "block" : "hidden"
       } w-full shrink-0 border-b border-border px-3 py-4 text-[13px] lg:sticky lg:top-11 lg:block lg:h-[calc(100vh-2.75rem)] lg:w-64 lg:overflow-y-auto lg:border-b-0 lg:border-r`}
     >
-      <NavGroup label="Start">
-        <UnitLink unit={START_HERE} onNavigate={onNavigate} />
-      </NavGroup>
-
       <NavGroup label={`Core Manual 00–40`}>
         {corePhases().map((g) => (
           <Phase key={g.phase} phase={g.phase} units={g.units} onNavigate={onNavigate} />
         ))}
       </NavGroup>
 
-      <NavGroup label="Companions">
+      <NavGroup label="Quick Start / Companions">
+        <UnitLink unit={START_HERE} onNavigate={onNavigate} />
         {COMPANIONS.map((u) => (
           <UnitLink key={u.id} unit={u} onNavigate={onNavigate} />
         ))}
@@ -70,9 +67,9 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
       </NavGroup>
 
       <p className="mt-6 px-2 text-[11px] leading-relaxed text-muted-foreground">
-        {Object.values(p.steps).filter((v) => v === "done").length} steps complete ·{" "}
-        {CORE.filter((u) => u.status === "populated").length} of {CORE.length} chapters loaded
+        Core: {core.done} of {core.total} steps · {core.chaptersWithSource} of {core.chapterCount} chapters loaded
       </p>
+
     </aside>
   );
 }
