@@ -13,8 +13,9 @@ type Row = { chapter: string; title: string; phase: string; companions?: string[
 const ROWS: Row[] = [
   { chapter: "00", title: "How to use this manual — reading routes", phase: "Foundations" },
   { chapter: "01", title: "The connected system", phase: "Foundations" },
-  { chapter: "02", title: "Finder as your work surface", phase: "Foundations" },
+  { chapter: "02", title: "Finder as your work surface", phase: "Foundations", companions: ["downloads-flow"] },
   { chapter: "03", title: "Tags — configure the vocabulary", phase: "Tags" },
+
   { chapter: "04", title: "Tags — models and decisions", phase: "Tags" },
   { chapter: "05", title: "Tags — across devices and transfers", phase: "Tags" },
   { chapter: "06", title: "Finder search — make the query visible", phase: "Search and retrieval", companions: ["search-flow"] },
@@ -67,13 +68,18 @@ export const PHASES = [
   "Workflows and upkeep",
 ] as const;
 
-export const CORE_UNITS: Unit[] = ROWS.map((r) => ({
-  id: `ch-${r.chapter}`,
-  source: "core",
-  chapter: r.chapter,
-  title: r.title,
-  phase: r.phase,
-  status: "pending",
-  steps: [],
-  companions: r.companions,
-}));
+export const CORE_UNITS: Unit[] = ROWS.map((r) => {
+  const steps = CORE_STEPS[r.chapter] ?? [];
+  return {
+    id: `ch-${r.chapter}`,
+    source: "core",
+    chapter: r.chapter,
+    title: r.title,
+    phase: r.phase,
+    summary: CORE_SUMMARIES[r.chapter],
+    status: steps.length ? "populated" : "pending",
+    steps,
+    companions: r.companions,
+  };
+});
+
