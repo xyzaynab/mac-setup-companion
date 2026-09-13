@@ -1,4 +1,6 @@
 import type { Unit } from "@/lib/workbench/content-types";
+import { CORE_STEPS, CORE_SUMMARIES } from "./core-00-02";
+
 
 /**
  * Canonical spine: "MacBook Air: A Connected macOS Working Manual".
