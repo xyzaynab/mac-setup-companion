@@ -45,6 +45,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
     },
     {
       id: "reading-routes",
+      requiredForProgress: false,
       type: "reference",
       title: "Other reading routes",
       lead: "Optional entry points if one problem is pressing. No forced branching.",
@@ -131,7 +132,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
         },
         {
           kind: "p",
-          text: "Use the notes on this step to record your own conventions as you settle them.",
+          text: "If you already have a convention, record it in the notes on this step. If not, leave it blank and return after later chapters give you more evidence.",
         },
       ],
     },
@@ -165,6 +166,13 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
             "Show filename extensions.",
           ],
         },
+        {
+          kind: "verify",
+          items: [
+            "A newly opened Finder window begins in the location you selected.",
+            "Filenames visibly show their extensions.",
+          ],
+        },
       ],
     },
     {
@@ -190,6 +198,13 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       body: [
         { kind: "ul", items: ["Pin the real inbox.", "Pin your current project folders."] },
         { kind: "p", text: "Removing a sidebar shortcut does not delete the files." },
+        {
+          kind: "verify",
+          items: [
+            "Your chosen Downloads/inbox and current project folders are visible in the Finder sidebar.",
+            "Those sidebar entries act as shortcuts that open the real folders.",
+          ],
+        },
       ],
     },
     {
@@ -241,10 +256,15 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
             "Command-V alone copies it.",
           ],
         },
+        {
+          kind: "caution",
+          text: "While you are learning the difference, practise on a disposable file or a copy so a mistaken move costs nothing.",
+        },
       ],
     },
     {
       id: "batch-rename",
+      requiredForProgress: false,
       type: "reference",
       title: "Batch Rename",
       body: [
@@ -298,6 +318,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
     },
     {
       id: "quick-action-seam",
+      requiredForProgress: false,
       type: "reference",
       title: "Know the Quick Action seam",
       lead: "Where Finder work hands off to automation — later, not now.",
