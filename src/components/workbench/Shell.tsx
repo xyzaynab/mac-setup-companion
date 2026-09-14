@@ -38,6 +38,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
 function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void }) {
   const p = useProgress();
+  const core = coreSummary(p);
   return (
     <aside
       className={`${
