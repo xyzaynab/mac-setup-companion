@@ -80,12 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Mac Setup Workbench" },
       {
         name: "description",
-        content: "A local-first, guided workbench for your own macOS setup and troubleshooting manuals.",
+        content:
+          "A local-first, guided workbench for your own macOS setup and troubleshooting manuals.",
       },
       { property: "og:title", content: "Mac Setup Workbench" },
       {
         property: "og:description",
-        content: "Guided, step-by-step macOS setup from your own HTML manuals. Nothing leaves your Mac.",
+        content:
+          "Guided, step-by-step macOS setup from your own HTML manuals. Nothing leaves your Mac.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

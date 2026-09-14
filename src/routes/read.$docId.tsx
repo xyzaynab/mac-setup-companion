@@ -8,7 +8,8 @@ export const Route = createFileRoute("/read/$docId")({
       { title: "Reference mode — Mac Setup Workbench" },
       {
         name: "description",
-        content: "Read a full imported macOS guide end to end, with your notes and completed steps in place.",
+        content:
+          "Read a full imported macOS guide end to end, with your notes and completed steps in place.",
       },
       { property: "og:title", content: "Reference mode — Mac Setup Workbench" },
       { property: "og:description", content: "The whole guide in one calm, readable page." },
@@ -42,7 +43,10 @@ function ReadPage() {
     <Shell>
       <div className="mx-auto max-w-[72ch]">
         <div className="flex items-center justify-between gap-4">
-          <Link to="/" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+          <Link
+            to="/"
+            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
             ← Dashboard
           </Link>
           <Link

@@ -20,10 +20,14 @@ export const Route = createFileRoute("/")({
         content:
           "An execution layer over A Connected macOS Working Manual: one actionable step at a time, with notes and progress kept locally in your browser.",
       },
-      { property: "og:title", content: "Mac Setup Companion — work the macOS manual, step by step" },
+      {
+        property: "og:title",
+        content: "Mac Setup Companion — work the macOS manual, step by step",
+      },
       {
         property: "og:description",
-        content: "Continue setup where you left off: core manual chapters 00–40 plus focused companions.",
+        content:
+          "Continue setup where you left off: core manual chapters 00–40 plus focused companions.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -50,12 +54,15 @@ function Home() {
           <SourceBadge source={coreUnit.source} />
           <p className="mt-2.5 text-[13px] text-muted-foreground">
             {unitLabel(coreUnit)}
-            {coreUnit.steps.length > 0 && ` · step ${Math.min(coreStep, coreUnit.steps.length - 1) + 1} of ${coreUnit.steps.length}`}
+            {coreUnit.steps.length > 0 &&
+              ` · step ${Math.min(coreStep, coreUnit.steps.length - 1) + 1} of ${coreUnit.steps.length}`}
           </p>
           <p className="mt-1 text-base font-medium leading-snug">
             {current ? current.title : "Source content to be loaded"}
           </p>
-          {current?.lead && <p className="mt-1 text-[13px] text-muted-foreground">{current.lead}</p>}
+          {current?.lead && (
+            <p className="mt-1 text-[13px] text-muted-foreground">{current.lead}</p>
+          )}
           <div className="mt-4 flex items-center gap-3">
             <Link
               to="/learn/$unitId"
@@ -65,7 +72,10 @@ function Home() {
             >
               {returning ? "Continue core setup" : "Begin core setup"}
             </Link>
-            <Link to="/reference" className="text-[13px] text-muted-foreground hover:text-foreground">
+            <Link
+              to="/reference"
+              className="text-[13px] text-muted-foreground hover:text-foreground"
+            >
               Reference mode
             </Link>
           </div>
@@ -95,6 +105,7 @@ function Home() {
                 key={u.id}
                 to="/learn/$unitId"
                 params={{ unitId: u.id }}
+                search={{ step: 0 }}
                 className="flex items-baseline gap-3 px-1 py-2.5 text-[13px] hover:bg-secondary"
               >
                 <span className="min-w-0 flex-1 truncate">{u.title}</span>
@@ -123,9 +134,12 @@ function Home() {
                       key={u.id}
                       to="/learn/$unitId"
                       params={{ unitId: u.id }}
+                      search={{ step: 0 }}
                       className="flex items-baseline gap-3 px-1 py-2 text-[13px] hover:bg-secondary"
                     >
-                      <span className="w-6 shrink-0 tabular-nums text-muted-foreground">{u.chapter}</span>
+                      <span className="w-6 shrink-0 tabular-nums text-muted-foreground">
+                        {u.chapter}
+                      </span>
                       <span className="min-w-0 flex-1 truncate">{u.title}</span>
                       <span className="text-[11px] text-muted-foreground">
                         {u.status === "pending" ? "source pending" : `${s.done}/${s.total}`}

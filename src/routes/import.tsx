@@ -17,7 +17,8 @@ export const Route = createFileRoute("/import")({
       { property: "og:title", content: "Import your macOS guides — Mac Setup Workbench" },
       {
         property: "og:description",
-        content: "Parse local HTML manuals into guided, step-by-step workflows. Nothing leaves your Mac.",
+        content:
+          "Parse local HTML manuals into guided, step-by-step workflows. Nothing leaves your Mac.",
       },
     ],
   }),
@@ -68,9 +69,10 @@ function ImportPage() {
       <div className="mx-auto max-w-3xl">
         <h1 className="text-2xl font-semibold tracking-tight">Import your guides</h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Choose the HTML manuals already saved on your Mac. They are read and split into steps right here in
-          the browser — nothing is uploaded, and no account or server is involved. Your progress and notes are
-          stored locally too, so you can close the tab and pick up where you stopped.
+          Choose the HTML manuals already saved on your Mac. They are read and split into steps
+          right here in the browser — nothing is uploaded, and no account or server is involved.
+          Your progress and notes are stored locally too, so you can close the tab and pick up where
+          you stopped.
         </p>
 
         <div
@@ -89,7 +91,9 @@ function ImportPage() {
           }`}
         >
           <p className="text-sm font-medium">Drop HTML guides here</p>
-          <p className="mt-1 text-xs text-muted-foreground">.html or .htm — one or several at a time</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            .html or .htm — one or several at a time
+          </p>
           <button
             onClick={() => inputRef.current?.click()}
             className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
@@ -162,7 +166,10 @@ function ImportPage() {
           <h2 className="text-sm font-semibold">How your files are handled</h2>
           <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
             <li>Files are read in the browser only — there is no upload, no server, no account.</li>
-            <li>Headings become sections and steps; the original text, lists and code are kept in full.</li>
+            <li>
+              Headings become sections and steps; the original text, lists and code are kept in
+              full.
+            </li>
             <li>Progress, completed steps and notes live in this browser's local storage.</li>
             <li>Clearing browser data for this site removes the imported guides and your notes.</li>
           </ul>

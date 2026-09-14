@@ -68,9 +68,9 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
       </NavGroup>
 
       <p className="mt-6 px-2 text-[11px] leading-relaxed text-muted-foreground">
-        Core: {core.done} of {core.total} required steps · {core.chaptersWithSource} of {core.chapterCount} chapters loaded
+        Core: {core.done} of {core.total} required steps · {core.chaptersWithSource} of{" "}
+        {core.chapterCount} chapters loaded
       </p>
-
     </aside>
   );
 }
@@ -86,7 +86,15 @@ function NavGroup({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function Phase({ phase, units, onNavigate }: { phase: string; units: Unit[]; onNavigate: () => void }) {
+function Phase({
+  phase,
+  units,
+  onNavigate,
+}: {
+  phase: string;
+  units: Unit[];
+  onNavigate: () => void;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -118,6 +126,7 @@ function UnitLink({ unit, onNavigate }: { unit: Unit; onNavigate: () => void }) 
     <Link
       to="/learn/$unitId"
       params={{ unitId: unit.id }}
+      search={{ step: 0 }}
       onClick={onNavigate}
       className="flex items-start gap-2 rounded px-2 py-1 text-[12.5px] leading-snug text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       activeProps={{ className: "bg-secondary text-foreground" }}
@@ -138,7 +147,15 @@ function UnitLink({ unit, onNavigate }: { unit: Unit; onNavigate: () => void }) 
   );
 }
 
-function NavItem({ to, children, onNavigate }: { to: string; children: ReactNode; onNavigate: () => void }) {
+function NavItem({
+  to,
+  children,
+  onNavigate,
+}: {
+  to: string;
+  children: ReactNode;
+  onNavigate: () => void;
+}) {
   return (
     <Link
       to={to}
@@ -167,7 +184,13 @@ export function SourceBadge({ source }: { source: SourceKind }) {
   );
 }
 
-export function ProgressBar({ pct, tone = "primary" }: { pct: number; tone?: "primary" | "violet" }) {
+export function ProgressBar({
+  pct,
+  tone = "primary",
+}: {
+  pct: number;
+  tone?: "primary" | "violet";
+}) {
   return (
     <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
       <div
@@ -183,8 +206,8 @@ export function ProgressBar({ pct, tone = "primary" }: { pct: number; tone?: "pr
 export function PendingNotice({ unit }: { unit: Unit }) {
   return (
     <div className="mt-6 max-w-[66ch] rounded border border-dashed border-border-strong px-4 py-5 text-sm text-muted-foreground">
-      Source content to be loaded. This chapter keeps its exact title and position in the manual; its
-      sections and steps will appear here once the source text for “{unit.title}” is added.
+      Source content to be loaded. This chapter keeps its exact title and position in the manual;
+      its sections and steps will appear here once the source text for “{unit.title}” is added.
     </div>
   );
 }

@@ -13,7 +13,10 @@ function sanitize(root: Element | DocumentFragment) {
       const n = attr.name.toLowerCase();
       if (n.startsWith("on")) el.removeAttribute(attr.name);
       if (n === "style") el.removeAttribute(attr.name);
-      if ((n === "href" || n === "src") && attr.value.trim().toLowerCase().startsWith("javascript:")) {
+      if (
+        (n === "href" || n === "src") &&
+        attr.value.trim().toLowerCase().startsWith("javascript:")
+      ) {
         el.removeAttribute(attr.name);
       }
     }
@@ -61,7 +64,8 @@ export function parseHtmlToSteps(html: string): { title: string; steps: Step[] }
   let node: ChildNode | null = container.firstChild;
   while (node && node !== headings[0]) {
     if (node.nodeType === 1) intro.push((node as Element).outerHTML);
-    else if (node.nodeType === 3 && node.textContent?.trim()) intro.push(`<p>${node.textContent}</p>`);
+    else if (node.nodeType === 3 && node.textContent?.trim())
+      intro.push(`<p>${node.textContent}</p>`);
     node = node.nextSibling;
   }
 

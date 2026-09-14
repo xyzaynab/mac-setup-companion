@@ -13,10 +13,14 @@ export const Route = createFileRoute("/guide/$docId")({
       { title: "Guided walkthrough — Mac Setup Workbench" },
       {
         name: "description",
-        content: "Work through one macOS setup step at a time with notes, completion state and resume.",
+        content:
+          "Work through one macOS setup step at a time with notes, completion state and resume.",
       },
       { property: "og:title", content: "Guided walkthrough — Mac Setup Workbench" },
-      { property: "og:description", content: "One actionable macOS step at a time, tracked locally." },
+      {
+        property: "og:description",
+        content: "One actionable macOS step at a time, tracked locally.",
+      },
     ],
   }),
   component: GuidePage,
@@ -55,7 +59,10 @@ function GuidePage() {
     <Shell>
       <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="lg:sticky lg:top-20 lg:self-start">
-          <Link to="/" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+          <Link
+            to="/"
+            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
             ← Dashboard
           </Link>
           <h2 className="mt-3 text-sm font-semibold leading-snug">{doc.title}</h2>
@@ -72,13 +79,19 @@ function GuidePage() {
                 key={s.id}
                 onClick={() => go(i)}
                 className={`flex w-full items-start gap-2 rounded-md py-1.5 pr-2 text-left text-xs leading-snug transition-colors ${
-                  i === index ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
+                  i === index
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
                 style={{ paddingLeft: `${0.5 + (s.level - 1) * 0.6}rem` }}
               >
                 <span
                   className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${
-                    p.completed[s.id] ? "bg-success" : i === index ? "bg-primary" : "bg-border-strong"
+                    p.completed[s.id]
+                      ? "bg-success"
+                      : i === index
+                        ? "bg-primary"
+                        : "bg-border-strong"
                   }`}
                 />
                 <span className="truncate">{s.title}</span>
@@ -102,17 +115,24 @@ function GuidePage() {
             </span>
             {current.path.length > 0 && <span>· {current.path.join(" › ")}</span>}
           </div>
-          <h1 className="mt-2 text-2xl font-semibold leading-tight tracking-tight">{current.title}</h1>
+          <h1 className="mt-2 text-2xl font-semibold leading-tight tracking-tight">
+            {current.title}
+          </h1>
 
           <article
             className="doc-prose mt-6 max-w-[68ch]"
-            dangerouslySetInnerHTML={{ __html: current.html || "<p>No extra detail in this section.</p>" }}
+            dangerouslySetInnerHTML={{
+              __html: current.html || "<p>No extra detail in this section.</p>",
+            }}
           />
 
           <RelatedTroubleshooting docs={docs} doc={doc} step={current} />
 
           <section className="mt-8 max-w-[68ch]">
-            <label htmlFor="note" className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            <label
+              htmlFor="note"
+              className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+            >
               Your notes for this step
             </label>
             <textarea
@@ -136,9 +156,7 @@ function GuidePage() {
             <button
               onClick={() => actions.toggleStep(doc.id, current.id)}
               className={`rounded-md border px-3.5 py-2 text-sm transition-colors ${
-                isDone
-                  ? "border-success text-success"
-                  : "border-border hover:bg-secondary"
+                isDone ? "border-success text-success" : "border-border hover:bg-secondary"
               }`}
             >
               {isDone ? "✓ Done" : "Mark as done"}
@@ -172,7 +190,28 @@ function GuidePage() {
 }
 
 const STOP = new Set([
-  "the","and","for","with","your","from","that","this","how","you","are","when","into","step","macos","mac","use","not","its","all","set","setup",
+  "the",
+  "and",
+  "for",
+  "with",
+  "your",
+  "from",
+  "that",
+  "this",
+  "how",
+  "you",
+  "are",
+  "when",
+  "into",
+  "step",
+  "macos",
+  "mac",
+  "use",
+  "not",
+  "its",
+  "all",
+  "set",
+  "setup",
 ]);
 
 function keywords(text: string) {
@@ -188,7 +227,8 @@ function RelatedTroubleshooting({ docs, doc, step }: { docs: Doc[]; doc: Doc; st
   const related = useMemo(() => {
     const keys = keywords(`${step.title} ${step.path.join(" ")}`);
     if (!keys.size) return [];
-    const out: { docId: string; docTitle: string; index: number; title: string; score: number }[] = [];
+    const out: { docId: string; docTitle: string; index: number; title: string; score: number }[] =
+      [];
     for (const other of docs) {
       if (other.id === doc.id || !/troubleshoot/i.test(other.category)) continue;
       other.steps.forEach((s, i) => {
@@ -197,7 +237,8 @@ function RelatedTroubleshooting({ docs, doc, step }: { docs: Doc[]; doc: Doc; st
         sk.forEach((w) => {
           if (keys.has(w)) score++;
         });
-        if (score > 0) out.push({ docId: other.id, docTitle: other.title, index: i, title: s.title, score });
+        if (score > 0)
+          out.push({ docId: other.id, docTitle: other.title, index: i, title: s.title, score });
       });
     }
     return out.sort((a, b) => b.score - a.score).slice(0, 3);

@@ -235,7 +235,11 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       body: [
         {
           kind: "ol",
-          items: ["Press Command-Shift-G.", "Type ~/Downloads.", "Press Command-Up to go to the parent folder."],
+          items: [
+            "Press Command-Shift-G.",
+            "Type ~/Downloads.",
+            "Press Command-Up to go to the parent folder.",
+          ],
         },
         { kind: "p", text: "The ~ character means your home folder." },
         {

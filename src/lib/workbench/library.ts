@@ -3,7 +3,11 @@ import { COMPANION_UNITS, START_HERE } from "@/content/companions";
 import type { Unit } from "./content-types";
 import { isCoreUnitId, unitStats, type ProgressState } from "./progress";
 
-export const UNITS: Unit[] = [START_HERE, ...CORE_UNITS, ...COMPANION_UNITS.filter((u) => u.id !== START_HERE.id)];
+export const UNITS: Unit[] = [
+  START_HERE,
+  ...CORE_UNITS,
+  ...COMPANION_UNITS.filter((u) => u.id !== START_HERE.id),
+];
 
 export const CORE = CORE_UNITS;
 export const COMPANIONS = COMPANION_UNITS.filter((u) => u.id !== START_HERE.id);
