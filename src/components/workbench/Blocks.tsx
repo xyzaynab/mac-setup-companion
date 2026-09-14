@@ -51,7 +51,9 @@ function BlockView({ block: b }: { block: Block }) {
   if (b.kind === "caution")
     return (
       <div className="not-prose my-4 border border-border-strong border-l-2 border-l-violet bg-surface px-4 py-3">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Caution</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          Caution
+        </p>
         {b.text && <p className="mt-2 text-[13px] leading-relaxed">{b.text}</p>}
         {b.items && (
           <ul className="mt-2 space-y-1 text-[13px] leading-relaxed">

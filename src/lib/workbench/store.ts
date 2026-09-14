@@ -22,7 +22,11 @@ function read<T>(key: string, fallback: T): T {
 
 function hydrate() {
   if (state.ready || typeof window === "undefined") return;
-  state = { docs: read<Doc[]>(DOCS_KEY, []), progress: read<Progress>(PROGRESS_KEY, {}), ready: true };
+  state = {
+    docs: read<Doc[]>(DOCS_KEY, []),
+    progress: read<Progress>(PROGRESS_KEY, {}),
+    ready: true,
+  };
   emit();
 }
 
@@ -96,5 +100,9 @@ export function getProgress(progress: Progress, docId: string): DocProgress {
 export function completionOf(doc: Doc, progress: Progress) {
   const p = getProgress(progress, doc.id);
   const done = doc.steps.filter((s) => p.completed[s.id]).length;
-  return { done, total: doc.steps.length, pct: doc.steps.length ? Math.round((done / doc.steps.length) * 100) : 0 };
+  return {
+    done,
+    total: doc.steps.length,
+    pct: doc.steps.length ? Math.round((done / doc.steps.length) * 100) : 0,
+  };
 }

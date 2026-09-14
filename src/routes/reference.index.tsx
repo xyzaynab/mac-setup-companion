@@ -14,7 +14,10 @@ export const Route = createFileRoute("/reference/")({
           "Read the loaded source material straight through: core manual chapters, Start Here, and the search and downloads companions.",
       },
       { property: "og:title", content: "Reference mode — Mac Setup Companion" },
-      { property: "og:description", content: "All loaded macOS manual source material, without completion UI." },
+      {
+        property: "og:description",
+        content: "All loaded macOS manual source material, without completion UI.",
+      },
     ],
   }),
   component: ReferencePage,
@@ -26,8 +29,8 @@ function ReferencePage() {
     <Shell>
       <h1 className="text-[19px] font-semibold tracking-tight">Reference</h1>
       <p className="mt-1.5 max-w-[66ch] text-[13px] text-muted-foreground">
-        Source material only — no steps to complete here. Chapters without loaded source text show their exact
-        title and position.
+        Source material only — no steps to complete here. Chapters without loaded source text show
+        their exact title and position.
       </p>
 
       <div className="mt-8 space-y-10">
@@ -38,6 +41,7 @@ function ReferencePage() {
               <Link
                 to="/learn/$unitId"
                 params={{ unitId: u.id }}
+                search={{ step: 0 }}
                 className="text-[11px] text-muted-foreground hover:text-foreground"
               >
                 open in focus mode

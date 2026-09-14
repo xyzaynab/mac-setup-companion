@@ -45,6 +45,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
     },
     {
       id: "reading-routes",
+      requiredForProgress: false,
       type: "reference",
       title: "Other reading routes",
       lead: "Optional entry points if one problem is pressing. No forced branching.",
@@ -99,16 +100,20 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       lead: "The same receipt, passing through every layer.",
       body: [
         {
+          kind: "p",
+          text: "One receipt passes through every layer in turn. Each line below is a distinct layer doing its own job.",
+        },
+        {
           kind: "ol",
           items: [
-            "A receipt arrives as a PDF in Downloads.",
-            "Inspect it with Space.",
-            "Rename it with the seller and date.",
-            "Move it to Receipts.",
-            "A Review tag marks its temporary state.",
-            "A saved search gathers Review-tagged PDFs across projects.",
-            "Remove Review after checking it; the file stays in its permanent folder.",
-            "Later, a selected-file Shortcut can prepare a copy for sharing.",
+            "Storage — a receipt arrives as a PDF in Downloads.",
+            "Storage — inspect it with Space before deciding anything.",
+            "Naming — rename it with the seller and date.",
+            "Folder placement — move it to Receipts.",
+            "Temporary tag — a Review tag marks its temporary state.",
+            "Saved-search view — a saved search gathers Review-tagged PDFs across projects.",
+            "Temporary tag — remove Review after checking it; the file stays in its permanent folder.",
+            "Later automation — a selected-file Shortcut can prepare a copy for sharing.",
           ],
         },
       ],
@@ -131,7 +136,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
         },
         {
           kind: "p",
-          text: "Use the notes on this step to record your own conventions as you settle them.",
+          text: "If you already have a convention, record it in the notes on this step. If not, leave it blank and return after later chapters give you more evidence.",
         },
       ],
     },
@@ -165,6 +170,13 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
             "Show filename extensions.",
           ],
         },
+        {
+          kind: "verify",
+          items: [
+            "A newly opened Finder window begins in the location you selected.",
+            "Filenames visibly show their extensions.",
+          ],
+        },
       ],
     },
     {
@@ -190,6 +202,13 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       body: [
         { kind: "ul", items: ["Pin the real inbox.", "Pin your current project folders."] },
         { kind: "p", text: "Removing a sidebar shortcut does not delete the files." },
+        {
+          kind: "verify",
+          items: [
+            "Your chosen Downloads/inbox and current project folders are visible in the Finder sidebar.",
+            "Those sidebar entries act as shortcuts that open the real folders.",
+          ],
+        },
       ],
     },
     {
@@ -216,7 +235,11 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       body: [
         {
           kind: "ol",
-          items: ["Press Command-Shift-G.", "Type ~/Downloads.", "Press Command-Up to go to the parent folder."],
+          items: [
+            "Press Command-Shift-G.",
+            "Type ~/Downloads.",
+            "Press Command-Up to go to the parent folder.",
+          ],
         },
         { kind: "p", text: "The ~ character means your home folder." },
         {
@@ -241,10 +264,15 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
             "Command-V alone copies it.",
           ],
         },
+        {
+          kind: "caution",
+          text: "While you are learning the difference, practise on a disposable file or a copy so a mistaken move costs nothing.",
+        },
       ],
     },
     {
       id: "batch-rename",
+      requiredForProgress: false,
       type: "reference",
       title: "Batch Rename",
       body: [
@@ -298,6 +326,7 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
     },
     {
       id: "quick-action-seam",
+      requiredForProgress: false,
       type: "reference",
       title: "Know the Quick Action seam",
       lead: "Where Finder work hands off to automation — later, not now.",
