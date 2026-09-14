@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import type { Unit } from "./content-types";
+import { isRequiredStep, type Unit } from "./content-types";
 
 const KEY = "msc.progress.v1";
 
