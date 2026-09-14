@@ -54,7 +54,7 @@ describe("migrateProgress", () => {
 describe("coreSummary", () => {
   it("counts only populated core units, ignoring companion completions", () => {
     const populated = CORE_UNITS.filter((u) => u.status === "populated");
-    const total = populated.reduce((n, u) => n + u.steps.length, 0);
+    const total = populated.reduce((n, u) => n + u.steps.filter((st) => st.requiredForProgress !== false).length, 0);
     const first = populated[0]!;
 
     const withCompanionDone = base({
