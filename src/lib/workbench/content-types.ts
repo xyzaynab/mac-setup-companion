@@ -49,8 +49,16 @@ export type ContentStep = {
   type?: StepType;
   /** Short imperative summary shown in the outline and focus header. */
   lead?: string;
+  /**
+   * Defaults to true. Optional reference steps stay readable, notable and
+   * completable, but never count toward core completion.
+   */
+  requiredForProgress?: boolean;
   body: Block[];
 };
+
+/** A step counts toward progress unless it is explicitly marked optional. */
+export const isRequiredStep = (step: ContentStep) => step.requiredForProgress !== false;
 
 export type UnitStatus = "populated" | "pending";
 
