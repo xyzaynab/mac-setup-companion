@@ -100,16 +100,20 @@ export const CORE_STEPS: Record<string, ContentStep[]> = {
       lead: "The same receipt, passing through every layer.",
       body: [
         {
+          kind: "p",
+          text: "One receipt passes through every layer in turn. Each line below is a distinct layer doing its own job.",
+        },
+        {
           kind: "ol",
           items: [
-            "A receipt arrives as a PDF in Downloads.",
-            "Inspect it with Space.",
-            "Rename it with the seller and date.",
-            "Move it to Receipts.",
-            "A Review tag marks its temporary state.",
-            "A saved search gathers Review-tagged PDFs across projects.",
-            "Remove Review after checking it; the file stays in its permanent folder.",
-            "Later, a selected-file Shortcut can prepare a copy for sharing.",
+            "Storage — a receipt arrives as a PDF in Downloads.",
+            "Storage — inspect it with Space before deciding anything.",
+            "Naming — rename it with the seller and date.",
+            "Folder placement — move it to Receipts.",
+            "Temporary tag — a Review tag marks its temporary state.",
+            "Saved-search view — a saved search gathers Review-tagged PDFs across projects.",
+            "Temporary tag — remove Review after checking it; the file stays in its permanent folder.",
+            "Later automation — a selected-file Shortcut can prepare a copy for sharing.",
           ],
         },
       ],
