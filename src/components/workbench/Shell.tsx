@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { CORE, COMPANIONS, corePhases, unitLabel } from "@/lib/workbench/library";
+import { COMPANIONS, coreSummary, corePhases, unitLabel } from "@/lib/workbench/library";
 import { SOURCE_LABEL, type SourceKind, type Unit } from "@/lib/workbench/content-types";
 import { START_HERE } from "@/content/companions";
 import { stepKey, unitStats, useProgress } from "@/lib/workbench/progress";
@@ -68,7 +68,7 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
       </NavGroup>
 
       <p className="mt-6 px-2 text-[11px] leading-relaxed text-muted-foreground">
-        Core: {core.done} of {core.total} steps · {core.chaptersWithSource} of {core.chapterCount} chapters loaded
+        Core: {core.done} of {core.total} required steps · {core.chaptersWithSource} of {core.chapterCount} chapters loaded
       </p>
 
     </aside>
