@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isCoreUnitId, migrateProgress, type ProgressState } from "./progress";
+import { isCoreUnitId, migrateProgress, unitStats, type ProgressState } from "./progress";
 import { coreSummary, nextCoreUnit } from "./library";
 import { CORE_UNITS } from "@/content/manual";
 
@@ -83,5 +83,35 @@ describe("nextCoreUnit", () => {
   it("returns undefined past the last chapter and for companions", () => {
     expect(nextCoreUnit(CORE_UNITS[CORE_UNITS.length - 1]!)).toBeUndefined();
     expect(nextCoreUnit({ id: "start-here", source: "start", title: "x", status: "populated", steps: [] })).toBeUndefined();
+  });
+});
+
+describe("optional reference steps", () => {
+  const ch = (id: string) => CORE_UNITS.find((u) => u.id === id)!;
+
+  it("marks only the approved steps optional", () => {
+    const optional = CORE_UNITS.flatMap((u) =>
+      u.steps.filter((s) => s.requiredForProgress === false).map((s) => `${u.id}::${s.id}`),
+    );
+    expect(optional.sort()).toEqual(["ch-00::reading-routes", "ch-02::batch-rename", "ch-02::quick-action-seam"]);
+  });
+
+  it("excludes optional steps from unit totals", () => {
+    const c0 = ch("ch-00");
+    expect(unitStats(c0, base()).total).toBe(c0.steps.length - 1);
+  });
+
+  it("shows a chapter complete when every required step is done", () => {
+    const c0 = ch("ch-00");
+    const steps: Record<string, "done"> = {};
+    for (const s of c0.steps) if (s.requiredForProgress !== false) steps[`${c0.id}::${s.id}`] = "done";
+    const stats = unitStats(c0, base({ steps }));
+    expect(stats.complete).toBe(true);
+    expect(stats.pct).toBe(100);
+  });
+
+  it("keeps optional completions out of the core percentage", () => {
+    const withOptional = base({ steps: { "ch-00::reading-routes": "done", "ch-02::batch-rename": "done" } });
+    expect(coreSummary(withOptional).done).toBe(0);
   });
 });
