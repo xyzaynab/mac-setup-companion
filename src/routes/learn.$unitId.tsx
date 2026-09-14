@@ -2,7 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Blocks } from "@/components/workbench/Blocks";
 import { PendingNotice, ProgressBar, Shell, SourceBadge } from "@/components/workbench/Shell";
-import { companionsFor, getUnit, unitLabel } from "@/lib/workbench/library";
+import { companionsFor, getUnit, nextCoreUnit, unitLabel } from "@/lib/workbench/library";
+import { STEP_TYPE_LABEL, isRequiredStep } from "@/lib/workbench/content-types";
 import { nextStepIndex, progressActions, stepKey, unitStats, useProgress } from "@/lib/workbench/progress";
 
 export const Route = createFileRoute("/learn/$unitId")({
@@ -63,6 +64,7 @@ function LearnPage() {
     );
   }
 
+  const nextUnit = nextCoreUnit(unit);
   const key = stepKey(unit.id, current.id);
   const stepState = p.steps[key];
   const note = p.notes[key] ?? "";
@@ -81,7 +83,11 @@ function LearnPage() {
 
       <div className="mt-7 grid gap-8 xl:grid-cols-[minmax(0,1fr)_220px]">
         <div className="min-w-0">
-          <h2 className="text-[20px] font-semibold leading-snug tracking-tight">{current.title}</h2>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            {current.type ? STEP_TYPE_LABEL[current.type] : "Step"}
+            {!isRequiredStep(current) && <span className="ml-2 font-normal normal-case tracking-normal italic">optional reference — not counted in progress</span>}
+          </p>
+          <h2 className="mt-1.5 text-[20px] font-semibold leading-snug tracking-tight">{current.title}</h2>
           {current.lead && <p className="mt-1 text-[13px] text-muted-foreground">{current.lead}</p>}
           <div className="mt-4">
             <Blocks blocks={current.body} />
@@ -89,14 +95,14 @@ function LearnPage() {
 
           <div className="mt-7 max-w-[66ch]">
             <label htmlFor="note" className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              Notes for this step
+              Notes for this step <span className="font-normal normal-case tracking-normal">(optional)</span>
             </label>
             <textarea
               id="note"
               rows={3}
               value={note}
               onChange={(e) => progressActions.setNote(unit.id, current.id, e.target.value)}
-              placeholder="What you changed, what to check later…"
+              placeholder="Only if useful: a convention you settled, an unexpected result, a setting you changed, something to revisit."
               className="mt-2 w-full resize-y border border-border bg-input px-3 py-2 text-[13px] leading-relaxed outline-none focus:border-ring"
             />
           </div>
@@ -134,20 +140,23 @@ function LearnPage() {
             </button>
             {index < unit.steps.length - 1 ? (
               <button
-                onClick={() => {
-                  if (!stepState) progressActions.toggleDone(unit.id, current.id);
-                  go(index + 1);
-                }}
+                onClick={() => go(index + 1)}
                 className="ml-auto bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground hover:opacity-90"
               >
                 Next
               </button>
+            ) : nextUnit ? (
+              <Link
+                to="/learn/$unitId"
+                params={{ unitId: nextUnit.id }}
+                search={{ step: 0 }}
+                className="ml-auto bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground hover:opacity-90"
+              >
+                Continue to Chapter {nextUnit.chapter}
+              </Link>
             ) : (
               <Link
                 to="/"
-                onClick={() => {
-                  if (!stepState) progressActions.toggleDone(unit.id, current.id);
-                }}
                 className="ml-auto bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground hover:opacity-90"
               >
                 Finish section
@@ -191,7 +200,10 @@ function LearnPage() {
                       st === "done" ? "bg-success" : st === "skipped" ? "bg-violet" : "bg-border-strong"
                     }`}
                   />
-                  <span className="truncate">{s.title}</span>
+                  <span className="truncate">
+                    {s.title}
+                    {!isRequiredStep(s) && <span className="text-muted-foreground italic"> · optional</span>}
+                  </span>
                 </button>
               );
             })}
