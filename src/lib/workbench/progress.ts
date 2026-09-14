@@ -124,16 +124,28 @@ export const progressActions = {
   },
 };
 
+/**
+ * Progress counts required steps only. Optional reference steps keep their own
+ * state but never create false incompletion.
+ */
 export function unitStats(unit: Unit, p: ProgressState) {
-  const total = unit.steps.length;
+  const required = unit.steps.filter(isRequiredStep);
+  const total = required.length;
   let done = 0;
   let skipped = 0;
-  for (const s of unit.steps) {
+  for (const s of required) {
     const v = p.steps[stepKey(unit.id, s.id)];
     if (v === "done") done++;
     else if (v === "skipped") skipped++;
   }
-  return { total, done, skipped, pct: total ? Math.round((done / total) * 100) : 0 };
+  return {
+    total,
+    done,
+    skipped,
+    pct: total ? Math.round((done / total) * 100) : 0,
+    complete: total > 0 && done === total,
+    optionalTotal: unit.steps.length - total,
+  };
 }
 
 /** First step not yet done or skipped, else the last step. */
