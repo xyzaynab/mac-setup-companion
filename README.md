@@ -1,26 +1,72 @@
 # Mac Setup Companion
 
-Build a local-first tutorial-style Mac Setup Workbench for a MacBook Air user. This is not a passive reader. It should guide the user step by step through existing macOS setup/organization manuals and focused troubleshooting guides, with one actionable step at a time, clear section hierarchy, Back/Next, progress tracking, resume where left off, per-step notes, completion state, and contextual troubleshooting links. The user has existing HTML guides stored locally on their Mac, so the app must support importing/selecting local HTML files in the browser and parsing their headings/content into a guided workflow without uploading the files to a backend. Start with these source categories: Start Here, Complete Connected macOS Working Manual, Search and Indexing Troubleshooting, Downloads and Desktop Organization, and a shorter Preview/apps/customization guide. Preserve source detail rather than summarizing aggressively. Provide a dashboard showing sections and progress, a focused tutorial view, and a reference/read mode. Use a calm dark interface with restrained blue/purple accents, high readability on a 13-inch MacBook Air, low visual clutter, and no gamified look. The app should work as a standalone web app and be suitable for later PWA installation or Vercel deployment. Do not require user accounts or a database for the first version; keep progress and notes locally in the browser. Include a clear import screen and explain that files stay local. Build the first functional version now.
+Mac Setup Companion is the local-first guided execution layer for _MacBook Air: A Connected macOS Working Manual_. It turns the complete 41-chapter manual into one bounded step at a time, with explicit completion, optional notes, contextual troubleshooting companions, and browser-local progress.
 
-This project was built with [Lovable](https://lovable.dev).
+The repository is the source of truth. The project retains its Lovable history and must not have published commits rebased, amended, squashed, or force-pushed.
 
-**Live app**: https://mac-setup-companion.lovable.app
+## Current scope
 
-## Build with Lovable
+- Core Manual Chapters 00–40 are populated in `src/content/core/00.ts` through `40.ts`.
+- The Start Here, search troubleshooting, Downloads/Desktop, and configuration-reference companions are populated.
+- Core resume uses `lastCore`; visiting companions does not replace it.
+- Next navigates without completing a step. Completion changes only through the explicit completion control.
+- Optional reference steps do not count toward core progress.
+- Notes and progress stay in the browser's local storage.
+- Imported HTML is parsed locally in the browser and is not uploaded to a backend.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/00e93814-7e26-4b64-ba9b-74feff499084).
+## Local development
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+The verified package manager is Bun 1.4.2 or newer.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
+
+The development server normally opens at `http://localhost:8080`.
+
+## Verification
+
+Run every gate before publishing changes:
+
+```sh
+bunx vitest run
+bunx tsc --noEmit
+bun run build
+bun run lint
+```
+
+The established lint baseline is zero errors and seven `react-refresh/only-export-components` warnings in existing shared component files. New errors or warnings are regressions.
+
+## Content architecture
+
+`src/content/manual.ts` is the ordered registry for the core manual. Each core chapter owns its metadata and guided content in a separate module under `src/content/core/`.
+
+The content model intentionally stays small:
+
+- step types: `orient`, `do`, `decision`, `try`, `reference`
+- blocks: `p`, `ul`, `ol`, `note`, `verify`, `caution`, `details`
+- `requiredForProgress: false` for optional reference material
+
+The application may add instructional structure around canonical source wording, but canonical prose must not be silently paraphrased.
+
+## Vercel readiness
+
+The repository includes `vercel.json` with explicit TanStack Start framework detection. The existing production build uses TanStack Start with Nitro; no database, account system, or required runtime secrets are present.
+
+To deploy later, after explicit authorization:
+
+1. Push the desired clean commit to GitHub.
+2. In Vercel, import that GitHub repository.
+3. Leave the detected framework as **TanStack Start** and use the repository defaults; no custom output directory is required.
+4. Deploy a preview first.
+5. Verify the dashboard, a core chapter, a companion, notes, completion, refresh persistence, and imported-document routes.
+6. Promote the verified deployment to production.
+
+Do not add secrets with a `VITE_` prefix unless they are intentionally public: Vite includes such values in browser code.
+
+No Vercel project, DNS record, deployment, or other external infrastructure is created by this repository preparation.
+
+## Historical Lovable deployment
+
+The earlier Lovable build remains at [mac-setup-companion.lovable.app](https://mac-setup-companion.lovable.app). It is historical deployment context, not the development source of truth.

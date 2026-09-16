@@ -1,4 +1,5 @@
 import type { Block } from "@/lib/workbench/content-types";
+import { InlineText } from "./InlineText";
 
 export function Blocks({ blocks }: { blocks: Block[] }) {
   return (
@@ -11,13 +12,20 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
 }
 
 function BlockView({ block: b }: { block: Block }) {
-  if (b.kind === "p") return <p>{b.text}</p>;
+  if (b.kind === "p")
+    return (
+      <p className="whitespace-pre-line">
+        <InlineText text={b.text} />
+      </p>
+    );
 
   if (b.kind === "ul")
     return (
       <ul>
         {b.items.map((it, j) => (
-          <li key={j}>{it}</li>
+          <li key={j}>
+            <InlineText text={it} />
+          </li>
         ))}
       </ul>
     );
@@ -26,7 +34,9 @@ function BlockView({ block: b }: { block: Block }) {
     return (
       <ol>
         {b.items.map((it, j) => (
-          <li key={j}>{it}</li>
+          <li key={j}>
+            <InlineText text={it} />
+          </li>
         ))}
       </ol>
     );
@@ -41,7 +51,9 @@ function BlockView({ block: b }: { block: Block }) {
           {b.items.map((it, j) => (
             <li key={j} className="flex gap-2">
               <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-border-strong" />
-              <span>{it}</span>
+              <span>
+                <InlineText text={it} />
+              </span>
             </li>
           ))}
         </ul>
@@ -54,13 +66,19 @@ function BlockView({ block: b }: { block: Block }) {
         <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Caution
         </p>
-        {b.text && <p className="mt-2 text-[13px] leading-relaxed">{b.text}</p>}
+        {b.text && (
+          <p className="mt-2 whitespace-pre-line text-[13px] leading-relaxed">
+            <InlineText text={b.text} />
+          </p>
+        )}
         {b.items && (
           <ul className="mt-2 space-y-1 text-[13px] leading-relaxed">
             {b.items.map((it, j) => (
               <li key={j} className="flex gap-2">
                 <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-border-strong" />
-                <span>{it}</span>
+                <span>
+                  <InlineText text={it} />
+                </span>
               </li>
             ))}
           </ul>
@@ -82,5 +100,9 @@ function BlockView({ block: b }: { block: Block }) {
       </details>
     );
 
-  return <p className="border-l-2 border-violet pl-4 text-muted-foreground">{b.text}</p>;
+  return (
+    <p className="whitespace-pre-line border-l-2 border-violet pl-4 text-muted-foreground">
+      <InlineText text={b.text} />
+    </p>
+  );
 }

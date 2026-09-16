@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CORE_UNITS } from "./manual";
+import { COMPANION_UNITS } from "./companions";
 
 describe("protected core content", () => {
   it("keeps Chapters 00 through 02 and their steps in canonical order", () => {
@@ -94,5 +95,22 @@ describe("complete core manual", () => {
       const stepIds = unit.steps.map((step) => step.id);
       expect(new Set(stepIds).size, unit.id).toBe(stepIds.length);
     }
+  });
+});
+
+describe("complete source library", () => {
+  it("has no pending companion source", () => {
+    expect(COMPANION_UNITS.filter((unit) => unit.status === "pending")).toEqual([]);
+  });
+
+  it("resolves every contextual companion id", () => {
+    const ids = new Set(COMPANION_UNITS.map((unit) => unit.id));
+    const unresolved = CORE_UNITS.flatMap((unit) =>
+      (unit.companions ?? [])
+        .filter((companionId) => !ids.has(companionId))
+        .map((companionId) => `${unit.id}::${companionId}`),
+    );
+
+    expect(unresolved).toEqual([]);
   });
 });

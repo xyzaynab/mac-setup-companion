@@ -1,4 +1,5 @@
 import type { Unit } from "@/lib/workbench/content-types";
+import { SUPPLEMENTAL } from "./supplemental";
 
 /** Onboarding route into the core manual. Text is source-derived, verbatim. */
 export const START_HERE: Unit = {
@@ -214,16 +215,6 @@ export const DOWNLOADS_FLOW: Unit = {
       ],
     },
   ],
-};
-
-/** Configuration/reference layer — not the canonical spine. */
-export const SUPPLEMENTAL: Unit = {
-  id: "supplemental",
-  source: "supplemental",
-  title: "A Mac configured around you — configuration reference",
-  summary: "Shorter reset/configuration guide. Reference layer, not the canonical spine.",
-  status: "pending",
-  steps: [],
 };
 
 export const COMPANION_UNITS: Unit[] = [START_HERE, SEARCH_FLOW, DOWNLOADS_FLOW, SUPPLEMENTAL];
