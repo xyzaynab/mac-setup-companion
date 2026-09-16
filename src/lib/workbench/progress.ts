@@ -47,6 +47,32 @@ export function migrateProgress(parsed: Partial<ProgressState>): ProgressState {
   };
 }
 
+export function setStepState(
+  current: ProgressState,
+  unitId: string,
+  stepId: string,
+  value: StepState | null,
+): ProgressState {
+  const steps = { ...current.steps };
+  const key = stepKey(unitId, stepId);
+  if (value === null) delete steps[key];
+  else steps[key] = value;
+  return { ...current, steps };
+}
+
+export function visitPosition(
+  current: ProgressState,
+  unitId: string,
+  step: number,
+): ProgressState {
+  const position = { unitId, step };
+  return {
+    ...current,
+    last: position,
+    lastCore: isCoreUnitId(unitId) ? position : current.lastCore,
+  };
+}
+
 function hydrate() {
   if (state.ready || typeof window === "undefined") return;
   try {
@@ -92,11 +118,7 @@ export function useProgress(): ProgressState {
 
 export const progressActions = {
   setStep(unitId: string, stepId: string, value: StepState | null) {
-    const steps = { ...state.steps };
-    const k = stepKey(unitId, stepId);
-    if (value === null) delete steps[k];
-    else steps[k] = value;
-    set({ steps });
+    set({ steps: setStepState(state, unitId, stepId, value).steps });
   },
   toggleDone(unitId: string, stepId: string) {
     const current = state.steps[stepKey(unitId, stepId)];
@@ -110,10 +132,8 @@ export const progressActions = {
     const sameLast = state.last?.unitId === unitId && state.last.step === step;
     const sameCore = !core || (state.lastCore?.unitId === unitId && state.lastCore.step === step);
     if (sameLast && sameCore) return;
-    set({
-      last: { unitId, step },
-      lastCore: core ? { unitId, step } : state.lastCore,
-    });
+    const next = visitPosition(state, unitId, step);
+    set({ last: next.last, lastCore: next.lastCore });
   },
   resetUnit(unitId: string) {
     const steps = { ...state.steps };
