@@ -69,10 +69,30 @@ describe("protected core content", () => {
           .filter((step) => step.requiredForProgress === false)
           .map((step) => `${unit.id}::${step.id}`),
       ),
-    ).toEqual([
-      "ch-00::reading-routes",
-      "ch-02::batch-rename",
-      "ch-02::quick-action-seam",
-    ]);
+    ).toEqual(["ch-00::reading-routes", "ch-02::batch-rename", "ch-02::quick-action-seam"]);
+  });
+});
+
+describe("complete core manual", () => {
+  it("contains all 41 populated chapters in canonical order", () => {
+    expect(CORE_UNITS).toHaveLength(41);
+    expect(CORE_UNITS.map((unit) => unit.chapter)).toEqual(
+      Array.from({ length: 41 }, (_, index) => String(index).padStart(2, "0")),
+    );
+    expect(CORE_UNITS.every((unit) => unit.status === "populated")).toBe(true);
+    expect(CORE_UNITS.every((unit) => unit.steps.length > 0)).toBe(true);
+    expect(
+      CORE_UNITS.every((unit) => unit.steps.some((step) => step.requiredForProgress !== false)),
+    ).toBe(true);
+  });
+
+  it("uses unique unit ids and unique step ids within every chapter", () => {
+    const unitIds = CORE_UNITS.map((unit) => unit.id);
+    expect(new Set(unitIds).size).toBe(unitIds.length);
+
+    for (const unit of CORE_UNITS) {
+      const stepIds = unit.steps.map((step) => step.id);
+      expect(new Set(stepIds).size, unit.id).toBe(stepIds.length);
+    }
   });
 });

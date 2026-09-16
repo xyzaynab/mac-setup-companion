@@ -1,148 +1,44 @@
-import type { Unit } from "@/lib/workbench/content-types";
-import { CORE_STEPS, CORE_SUMMARIES } from "./core-00-02";
-
-/**
- * Canonical spine: "MacBook Air: A Connected macOS Working Manual".
- * Chapter numbers and titles are fixed by the source and must not be edited.
- * Chapters without source text loaded stay `status: "pending"` with no steps —
- * later source batches add steps and flip the status.
- */
-type Row = { chapter: string; title: string; phase: string; companions?: string[] };
-
-const ROWS: Row[] = [
-  { chapter: "00", title: "How to use this manual — reading routes", phase: "Foundations" },
-  { chapter: "01", title: "The connected system", phase: "Foundations" },
-  {
-    chapter: "02",
-    title: "Finder as your work surface",
-    phase: "Foundations",
-    companions: ["downloads-flow"],
-  },
-  { chapter: "03", title: "Tags — configure the vocabulary", phase: "Tags" },
-
-  { chapter: "04", title: "Tags — models and decisions", phase: "Tags" },
-  { chapter: "05", title: "Tags — across devices and transfers", phase: "Tags" },
-  {
-    chapter: "06",
-    title: "Finder search — make the query visible",
-    phase: "Search and retrieval",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "07",
-    title: "Spotlight — retrieval and action",
-    phase: "Search and retrieval",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "08",
-    title: "Smart Folders — reusable views",
-    phase: "Search and retrieval",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "09",
-    title: "Searchability, end to end",
-    phase: "Search and retrieval",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "10",
-    title: "Search diagnosis before repair",
-    phase: "Search repair",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "11",
-    title: "Repair a bounded search problem",
-    phase: "Search repair",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "12",
-    title: "Choose a search supplement",
-    phase: "Search repair",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "13",
-    title: "Put a search app to work",
-    phase: "Search repair",
-    companions: ["search-flow"],
-  },
-  {
-    chapter: "14",
-    title: "Downloads and Desktop — define the jobs",
-    phase: "Files in motion",
-    companions: ["downloads-flow"],
-  },
-  {
-    chapter: "15",
-    title: "A native Downloads routing recipe",
-    phase: "Files in motion",
-    companions: ["downloads-flow"],
-  },
-  {
-    chapter: "16",
-    title: "Hazel — when rules become substantial",
-    phase: "Files in motion",
-    companions: ["downloads-flow"],
-  },
-  {
-    chapter: "17",
-    title: "Screenshots — capture with an exit path",
-    phase: "Capture and preview",
-    companions: ["downloads-flow"],
-  },
-  { chapter: "18", title: "Screenshot text — three distinct layers", phase: "Capture and preview" },
-  {
-    chapter: "19",
-    title: "Quick Look and Preview",
-    phase: "Capture and preview",
-    companions: ["supplemental"],
-  },
-  { chapter: "20", title: "Context menus, Services, and sharing", phase: "Capture and preview" },
-  { chapter: "21", title: "iCloud — location, availability, recovery", phase: "Across devices" },
-  { chapter: "22", title: "Continuity between devices", phase: "Across devices" },
-  { chapter: "23", title: "Windows — choose the problem to solve", phase: "Windows and display" },
-  { chapter: "24", title: "Stage Manager — work in small sets", phase: "Windows and display" },
-  { chapter: "25", title: "Spaces and Mission Control", phase: "Windows and display" },
-  { chapter: "26", title: "Tiling and external displays", phase: "Windows and display" },
-  {
-    chapter: "27",
-    title: "Widgets, Focus, and visible controls",
-    phase: "Windows and display",
-    companions: ["supplemental"],
-  },
-  {
-    chapter: "28",
-    title: "Readability and Font Book",
-    phase: "Windows and display",
-    companions: ["supplemental"],
-  },
-  { chapter: "29", title: "Cross-system workflows", phase: "Automation" },
-  {
-    chapter: "30",
-    title: "The automation ladder",
-    phase: "Automation",
-    companions: ["downloads-flow"],
-  },
-  { chapter: "31", title: "Shortcuts — follow the content", phase: "Automation" },
-  { chapter: "32", title: "Quick Actions and Services in practice", phase: "Automation" },
-  { chapter: "33", title: "Personal automations on Tahoe", phase: "Automation" },
-  {
-    chapter: "34",
-    title: "Automator and Folder Actions",
-    phase: "Automation",
-    companions: ["downloads-flow"],
-  },
-  { chapter: "35", title: "AppleScript — talk to the app", phase: "Automation" },
-  { chapter: "36", title: "Shell automation — explicit files and output", phase: "Automation" },
-  { chapter: "37", title: "Advanced scheduling with launchd", phase: "Automation" },
-  { chapter: "38", title: "Automation ideas, worked in full", phase: "Automation" },
-  { chapter: "39", title: "Three complete workflows", phase: "Workflows and upkeep" },
-  { chapter: "40", title: "Setup, upkeep, and what changed", phase: "Workflows and upkeep" },
-];
+import { chapter00 } from "./core/00";
+import { chapter01 } from "./core/01";
+import { chapter02 } from "./core/02";
+import { chapter03 } from "./core/03";
+import { chapter04 } from "./core/04";
+import { chapter05 } from "./core/05";
+import { chapter06 } from "./core/06";
+import { chapter07 } from "./core/07";
+import { chapter08 } from "./core/08";
+import { chapter09 } from "./core/09";
+import { chapter10 } from "./core/10";
+import { chapter11 } from "./core/11";
+import { chapter12 } from "./core/12";
+import { chapter13 } from "./core/13";
+import { chapter14 } from "./core/14";
+import { chapter15 } from "./core/15";
+import { chapter16 } from "./core/16";
+import { chapter17 } from "./core/17";
+import { chapter18 } from "./core/18";
+import { chapter19 } from "./core/19";
+import { chapter20 } from "./core/20";
+import { chapter21 } from "./core/21";
+import { chapter22 } from "./core/22";
+import { chapter23 } from "./core/23";
+import { chapter24 } from "./core/24";
+import { chapter25 } from "./core/25";
+import { chapter26 } from "./core/26";
+import { chapter27 } from "./core/27";
+import { chapter28 } from "./core/28";
+import { chapter29 } from "./core/29";
+import { chapter30 } from "./core/30";
+import { chapter31 } from "./core/31";
+import { chapter32 } from "./core/32";
+import { chapter33 } from "./core/33";
+import { chapter34 } from "./core/34";
+import { chapter35 } from "./core/35";
+import { chapter36 } from "./core/36";
+import { chapter37 } from "./core/37";
+import { chapter38 } from "./core/38";
+import { chapter39 } from "./core/39";
+import { chapter40 } from "./core/40";
 
 export const PHASES = [
   "Foundations",
@@ -157,19 +53,46 @@ export const PHASES = [
   "Workflows and upkeep",
 ] as const;
 
-export const CORE_UNITS: Unit[] = ROWS.map((r) => {
-  const steps = CORE_STEPS[r.chapter] ?? [];
-  const summary = CORE_SUMMARIES[r.chapter];
-  const unit: Unit = {
-    id: `ch-${r.chapter}`,
-    source: "core",
-    chapter: r.chapter,
-    title: r.title,
-    phase: r.phase,
-    status: steps.length ? "populated" : "pending",
-    steps,
-  };
-  if (summary) unit.summary = summary;
-  if (r.companions) unit.companions = r.companions;
-  return unit;
-});
+export const CORE_UNITS = [
+  chapter00,
+  chapter01,
+  chapter02,
+  chapter03,
+  chapter04,
+  chapter05,
+  chapter06,
+  chapter07,
+  chapter08,
+  chapter09,
+  chapter10,
+  chapter11,
+  chapter12,
+  chapter13,
+  chapter14,
+  chapter15,
+  chapter16,
+  chapter17,
+  chapter18,
+  chapter19,
+  chapter20,
+  chapter21,
+  chapter22,
+  chapter23,
+  chapter24,
+  chapter25,
+  chapter26,
+  chapter27,
+  chapter28,
+  chapter29,
+  chapter30,
+  chapter31,
+  chapter32,
+  chapter33,
+  chapter34,
+  chapter35,
+  chapter36,
+  chapter37,
+  chapter38,
+  chapter39,
+  chapter40,
+];

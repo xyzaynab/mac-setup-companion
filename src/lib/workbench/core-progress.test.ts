@@ -103,8 +103,8 @@ describe("nextCoreUnit", () => {
 describe("optional reference steps", () => {
   const ch = (id: string) => CORE_UNITS.find((u) => u.id === id)!;
 
-  it("marks only the approved steps optional", () => {
-    const optional = CORE_UNITS.flatMap((u) =>
+  it("preserves the approved optional steps in Chapters 00 through 02", () => {
+    const optional = CORE_UNITS.slice(0, 3).flatMap((u) =>
       u.steps.filter((s) => s.requiredForProgress === false).map((s) => `${u.id}::${s.id}`),
     );
     expect(optional.sort()).toEqual([

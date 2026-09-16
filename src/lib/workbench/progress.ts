@@ -60,11 +60,7 @@ export function setStepState(
   return { ...current, steps };
 }
 
-export function visitPosition(
-  current: ProgressState,
-  unitId: string,
-  step: number,
-): ProgressState {
+export function visitPosition(current: ProgressState, unitId: string, step: number): ProgressState {
   const position = { unitId, step };
   return {
     ...current,

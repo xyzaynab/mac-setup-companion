@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  setStepState,
-  visitPosition,
-  type ProgressState,
-} from "./progress";
+import { setStepState, visitPosition, type ProgressState } from "./progress";
 
 const baseline = (): ProgressState => ({
   steps: { "ch-00::how-to-use": "done" },
