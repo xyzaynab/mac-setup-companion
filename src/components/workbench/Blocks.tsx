@@ -44,10 +44,10 @@ function BlockView({ block: b }: { block: Block }) {
   if (b.kind === "verify")
     return (
       <div className="not-prose my-4 border border-border bg-surface px-4 py-3">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           What you should see
         </p>
-        <ul className="mt-2 space-y-1 text-[13px] leading-relaxed">
+        <ul className="mt-2 space-y-1 text-[15px] leading-relaxed">
           {b.items.map((it, j) => (
             <li key={j} className="flex gap-2">
               <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-border-strong" />
@@ -63,16 +63,16 @@ function BlockView({ block: b }: { block: Block }) {
   if (b.kind === "caution")
     return (
       <div className="not-prose my-4 border border-border-strong border-l-2 border-l-violet bg-surface px-4 py-3">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Caution
         </p>
         {b.text && (
-          <p className="mt-2 whitespace-pre-line text-[13px] leading-relaxed">
+          <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed">
             <InlineText text={b.text} />
           </p>
         )}
         {b.items && (
-          <ul className="mt-2 space-y-1 text-[13px] leading-relaxed">
+          <ul className="mt-2 space-y-1 text-[15px] leading-relaxed">
             {b.items.map((it, j) => (
               <li key={j} className="flex gap-2">
                 <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-border-strong" />
@@ -89,7 +89,7 @@ function BlockView({ block: b }: { block: Block }) {
   if (b.kind === "details")
     return (
       <details className="not-prose my-4 border border-border px-4 py-3">
-        <summary className="cursor-pointer text-[12px] text-muted-foreground hover:text-foreground">
+        <summary className="cursor-pointer text-[14px] text-muted-foreground hover:text-foreground">
           {b.summary}
         </summary>
         <div className="doc-prose mt-3">

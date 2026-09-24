@@ -81,6 +81,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 1.0625rem;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -91,8 +92,8 @@
 
 /* Rendered source-guide markup. Preserves the original structure. */
 @utility doc-prose {
-  font-size: 0.975rem;
-  line-height: 1.75;
+  font-size: 1.0625rem;
+  line-height: 1.8;
   color: var(--foreground);
 
   & p {

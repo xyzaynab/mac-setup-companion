@@ -47,12 +47,12 @@ function Home() {
   return (
     <Shell>
       <section className="max-w-[70ch]">
-        <h1 className="text-[19px] font-semibold tracking-tight">
+        <h1 className="text-[22px] font-semibold tracking-tight">
           {returning ? "Continue core setup" : "Begin core setup"}
         </h1>
         <div className="mt-3 border border-border bg-surface px-5 py-4">
           <SourceBadge source={coreUnit.source} />
-          <p className="mt-2.5 text-[13px] text-muted-foreground">
+          <p className="mt-2.5 text-[15px] text-muted-foreground">
             {unitLabel(coreUnit)}
             {coreUnit.steps.length > 0 &&
               ` · step ${Math.min(coreStep, coreUnit.steps.length - 1) + 1} of ${coreUnit.steps.length}`}
@@ -61,20 +61,20 @@ function Home() {
             {current ? current.title : "Source content to be loaded"}
           </p>
           {current?.lead && (
-            <p className="mt-1 text-[13px] text-muted-foreground">{current.lead}</p>
+            <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{current.lead}</p>
           )}
           <div className="mt-4 flex items-center gap-3">
             <Link
               to="/learn/$unitId"
               params={{ unitId: coreUnit.id }}
               search={{ step: coreStep }}
-              className="bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
+              className="bg-primary px-4 py-2 text-[15px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
               {returning ? "Continue core setup" : "Begin core setup"}
             </Link>
             <Link
               to="/reference"
-              className="text-[13px] text-muted-foreground hover:text-foreground"
+              className="text-[15px] text-muted-foreground hover:text-foreground"
             >
               Reference mode
             </Link>
@@ -83,7 +83,7 @@ function Home() {
 
         <div className="mt-5">
           <ProgressBar pct={core.pct} />
-          <p className="mt-1.5 text-[12px] text-muted-foreground">
+          <p className="mt-1.5 text-[13px] text-muted-foreground">
             {core.done} of {core.total} required core steps complete · {core.chaptersWithSource} of{" "}
             {core.chapterCount} core chapters have source text
           </p>
@@ -91,10 +91,10 @@ function Home() {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <h2 className="text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Quick Start / Companions
         </h2>
-        <p className="mt-1 text-[12px] text-muted-foreground">
+        <p className="mt-1 text-[13px] text-muted-foreground">
           Optional. These never change your place in the Core Manual.
         </p>
         <div className="mt-3 divide-y divide-border border-y border-border">
@@ -106,10 +106,10 @@ function Home() {
                 to="/learn/$unitId"
                 params={{ unitId: u.id }}
                 search={{ step: 0 }}
-                className="flex items-baseline gap-3 px-1 py-2.5 text-[13px] hover:bg-secondary"
+                className="flex items-baseline gap-3 px-1 py-3 text-[15px] hover:bg-secondary"
               >
                 <span className="min-w-0 flex-1 truncate">{u.title}</span>
-                <span className="text-[11px] text-muted-foreground">
+                <span className="text-[12px] text-muted-foreground">
                   {u.status === "pending" ? "source pending" : `${s.done}/${s.total}`}
                 </span>
               </Link>
@@ -119,13 +119,13 @@ function Home() {
       </section>
 
       <section className="mt-10">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <h2 className="text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Core Manual 00–40
         </h2>
         <div className="mt-3 space-y-6">
           {corePhases().map((g) => (
             <div key={g.phase}>
-              <p className="text-[12px] text-muted-foreground">{g.phase}</p>
+              <p className="text-[13px] text-muted-foreground">{g.phase}</p>
               <div className="mt-1.5 divide-y divide-border border-y border-border">
                 {g.units.map((u) => {
                   const s = unitStats(u, p);
@@ -135,13 +135,13 @@ function Home() {
                       to="/learn/$unitId"
                       params={{ unitId: u.id }}
                       search={{ step: 0 }}
-                      className="flex items-baseline gap-3 px-1 py-2 text-[13px] hover:bg-secondary"
+                      className="flex items-baseline gap-3 px-1 py-2.5 text-[15px] hover:bg-secondary"
                     >
                       <span className="w-6 shrink-0 tabular-nums text-muted-foreground">
                         {u.chapter}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{u.title}</span>
-                      <span className="text-[11px] text-muted-foreground">
+                      <span className="text-[12px] text-muted-foreground">
                         {u.status === "pending" ? "source pending" : `${s.done}/${s.total}`}
                       </span>
                     </Link>

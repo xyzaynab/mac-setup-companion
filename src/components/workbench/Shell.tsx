@@ -10,21 +10,21 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-30 border-b border-border bg-background">
-        <div className="flex h-11 items-center gap-3 px-4">
+        <div className="flex h-12 items-center gap-3 px-4">
           <button
             onClick={() => setOpen((o) => !o)}
-            className="rounded border border-border px-2 py-1 text-xs text-muted-foreground hover:text-foreground lg:hidden"
+            className="rounded border border-border px-2 py-1 text-sm text-muted-foreground hover:text-foreground lg:hidden"
             aria-label="Toggle navigator"
           >
             Menu
           </button>
-          <Link to="/" className="text-[13px] font-semibold tracking-tight">
+          <Link to="/" className="text-[15px] font-semibold tracking-tight">
             Mac Setup Companion
           </Link>
-          <span className="hidden text-xs text-muted-foreground sm:block">
+          <span className="hidden text-sm text-muted-foreground sm:block">
             MacBook Air: A Connected macOS Working Manual
           </span>
-          <span className="ml-auto text-[11px] text-muted-foreground">Local only — no account</span>
+          <span className="ml-auto text-[12px] text-muted-foreground">Local only — no account</span>
         </div>
       </header>
 
@@ -43,7 +43,7 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
     <aside
       className={`${
         open ? "block" : "hidden"
-      } w-full shrink-0 border-b border-border px-3 py-4 text-[13px] lg:sticky lg:top-11 lg:block lg:h-[calc(100vh-2.75rem)] lg:w-64 lg:overflow-y-auto lg:border-b-0 lg:border-r`}
+      } w-full shrink-0 border-b border-border px-3 py-4 text-[14px] lg:sticky lg:top-12 lg:block lg:h-[calc(100vh-3rem)] lg:w-72 lg:overflow-y-auto lg:border-b-0 lg:border-r`}
     >
       <NavGroup label={`Core Manual 00–40`}>
         {corePhases().map((g) => (
@@ -67,7 +67,7 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
         </NavItem>
       </NavGroup>
 
-      <p className="mt-6 px-2 text-[11px] leading-relaxed text-muted-foreground">
+      <p className="mt-6 px-2 text-[12px] leading-relaxed text-muted-foreground">
         Core: {core.done} of {core.total} required steps · {core.chaptersWithSource} of{" "}
         {core.chapterCount} chapters loaded
       </p>
@@ -78,7 +78,7 @@ function Navigator({ open, onNavigate }: { open: boolean; onNavigate: () => void
 function NavGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="mb-5">
-      <p className="px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+      <p className="px-2 pb-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
         {label}
       </p>
       <div className="space-y-px">{children}</div>
@@ -100,11 +100,11 @@ function Phase({
     <div>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 rounded px-2 py-1 text-left text-[12px] text-muted-foreground hover:bg-secondary hover:text-foreground"
+        className="flex w-full items-center gap-1.5 rounded px-2 py-1.5 text-left text-[13px] text-muted-foreground hover:bg-secondary hover:text-foreground"
       >
         <span className="w-2 text-[9px]">{open ? "▾" : "▸"}</span>
         <span className="truncate">{phase}</span>
-        <span className="ml-auto text-[10px] tabular-nums">
+        <span className="ml-auto text-[11px] tabular-nums">
           {units[0]?.chapter}–{units[units.length - 1]?.chapter}
         </span>
       </button>
@@ -128,7 +128,7 @@ function UnitLink({ unit, onNavigate }: { unit: Unit; onNavigate: () => void }) 
       params={{ unitId: unit.id }}
       search={{ step: 0 }}
       onClick={onNavigate}
-      className="flex items-start gap-2 rounded px-2 py-1 text-[12.5px] leading-snug text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      className="flex items-start gap-2 rounded px-2 py-1.5 text-[14px] leading-snug text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       activeProps={{ className: "bg-secondary text-foreground" }}
     >
       <span
@@ -160,7 +160,7 @@ function NavItem({
     <Link
       to={to}
       onClick={onNavigate}
-      className="block rounded px-2 py-1 text-[12.5px] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      className="block rounded px-2 py-1.5 text-[14px] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       activeProps={{ className: "bg-secondary text-foreground" }}
     >
       {children}
@@ -177,7 +177,7 @@ export function SourceBadge({ source }: { source: SourceKind }) {
         : "text-violet";
   return (
     <span
-      className={`inline-flex items-center rounded border border-border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] ${tone}`}
+      className={`inline-flex items-center rounded border border-border px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.12em] ${tone}`}
     >
       Source: {SOURCE_LABEL[source]}
     </span>
