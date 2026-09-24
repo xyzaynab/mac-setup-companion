@@ -4,6 +4,11 @@ Mac Setup Companion is the local-first guided execution layer for _MacBook Air: 
 
 The repository is the source of truth. The project retains its Lovable history and must not have published commits rebased, amended, squashed, or force-pushed.
 
+## Links
+
+- Live app: [mac-setup-companion.vercel.app](https://mac-setup-companion.vercel.app) (Vercel sign-in may be required while deployment protection is enabled)
+- Source repository: [github.com/xyzaynab/mac-setup-companion](https://github.com/xyzaynab/mac-setup-companion)
+
 ## Current scope
 
 - Core Manual Chapters 00–40 are populated in `src/content/core/00.ts` through `40.ts`.
@@ -50,22 +55,15 @@ The content model intentionally stays small:
 
 The application may add instructional structure around canonical source wording, but canonical prose must not be silently paraphrased.
 
-## Vercel readiness
+## Vercel deployment
 
-The repository includes `vercel.json` with explicit TanStack Start framework detection. The existing production build uses TanStack Start with Nitro; no database, account system, or required runtime secrets are present.
+The app is deployed through Vercel and connected to the GitHub repository above. Its first production deployment is available at [mac-setup-companion.vercel.app](https://mac-setup-companion.vercel.app). Vercel deployment protection is currently enabled, so a Vercel sign-in may be required to access it.
 
-To deploy later, after explicit authorization:
+The repository includes `vercel.json` with explicit TanStack Start framework detection. The production build uses TanStack Start with Nitro; no database, account system, or required runtime secrets are present.
 
-1. Push the desired clean commit to GitHub.
-2. In Vercel, import that GitHub repository.
-3. Leave the detected framework as **TanStack Start** and use the repository defaults; no custom output directory is required.
-4. Deploy a preview first.
-5. Verify the dashboard, a core chapter, a companion, notes, completion, refresh persistence, and imported-document routes.
-6. Promote the verified deployment to production.
+For future releases, push a clean commit to `main`, confirm the linked Vercel deployment has built successfully, and verify the dashboard, a core chapter, a companion, notes, completion, refresh persistence, and import/reference routes.
 
 Do not add secrets with a `VITE_` prefix unless they are intentionally public: Vite includes such values in browser code.
-
-No Vercel project, DNS record, deployment, or other external infrastructure is created by this repository preparation.
 
 ## Historical Lovable deployment
 

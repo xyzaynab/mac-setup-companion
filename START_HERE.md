@@ -4,6 +4,14 @@ Welcome. This companion helps you set up a calmer, more reliable way to work on 
 
 ## Open the app
 
+The easiest way is to open the online companion:
+
+[Open Mac Setup Companion](https://mac-setup-companion.vercel.app)
+
+Sign in to Vercel if it asks. Your notes and progress stay in the browser you use, so the online app and your local app keep separate progress.
+
+### Run your local copy instead
+
 1. Open **Terminal**.
 2. Paste these two lines, one at a time:
 
@@ -46,7 +54,8 @@ The goal is not to do everything today. First make a small system that you can s
 
 - The manual has 41 core chapters, from 00 through 40.
 - Reference material is optional and does not affect your core progress.
-- Your progress and notes are stored in this browser on this Mac. If you clear the browser’s site data, they may be removed.
+- Your progress and notes are stored in the browser you use. If you clear that browser’s site data, they may be removed.
+- The app does not need an account. Its source code is at [github.com/xyzaynab/mac-setup-companion](https://github.com/xyzaynab/mac-setup-companion).
 - Nothing is sent to a server by the app when you use it locally.
 
 ## A good first session

@@ -104,4 +104,6 @@ Run the verification gates again before relying on this baseline after any depen
 
 ## Deployment status
 
-The repository is prepared for a later GitHub/Vercel deployment (`vercel.json` is present). It has not been pushed or deployed by this work. When explicitly authorized, push the desired clean commit, import the GitHub repository into Vercel as a TanStack Start project, deploy a preview, and manually verify dashboard, core flow, companion flow, notes, completion, persistence, and import/reference routes before production.
+The repository is pushed to [github.com/xyzaynab/mac-setup-companion](https://github.com/xyzaynab/mac-setup-companion) and connected to the Vercel project `zaynab4/mac-setup-companion`. The initial deployment is live at [mac-setup-companion.vercel.app](https://mac-setup-companion.vercel.app), with Vercel deployment protection enabled. Do not disable that protection, alter domains, or change other infrastructure without the user's express authorization.
+
+For a future release, push a clean commit to `main`, verify the linked Vercel build, then manually check the dashboard, core flow, companion flow, notes, completion, persistence, and import/reference routes.
